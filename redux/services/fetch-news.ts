@@ -1,8 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const fetchNews = createAsyncThunk('article/fetchNews', async () => {
-	const apiKey = "f8e7118b-6ea5-4f80-bcb6-5332a889495a"; // Replace with your API key
-	const apiUrl = `https://content.guardianapis.com/search?show-fields=body,headline,thumbnail&api-key=${apiKey}`;
+interface FetchNewsType {
+	searchTerm: string
+}
+
+export const fetchNews = createAsyncThunk<any, FetchNewsType>('article/fetchNews', async ({searchTerm}: FetchNewsType) => {
+	const apiKey = "f8e7118b-6ea5-4f80-bcb6-5332a889495a";
+	const apiUrl = `https://content.guardianapis.com/search?show-fields=body,headline,thumbnail&q=${searchTerm}&api-key=${apiKey}`;
 
 	try {
 		const res = await fetch(apiUrl);

@@ -21,12 +21,17 @@ const initialState = {
 	news: [] as NewsItem[],
 	status: 'idle' as 'idle' | 'loading' | 'succeeded' | 'failed',
 	error: null as string | null,
+	searchTerm: ''
 };
 
 const newsSlice = createSlice({
 	name: 'news',
 	initialState,
-	reducers: {},
+	reducers: {
+		setSearchTerm: (state, action: PayloadAction<string>) => {
+			state.searchTerm = action.payload;
+		}
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchNews.pending, (state) => {
@@ -43,6 +48,6 @@ const newsSlice = createSlice({
 	},
 });
 
-
+export const { setSearchTerm } = newsSlice.actions
 export default newsSlice.reducer;
 

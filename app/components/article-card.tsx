@@ -13,11 +13,11 @@ export const ArticleCard = () => {
 	const router = useRouter();
 	const dispatch: AppDispatch = useDispatch();
 
-	const { news, status, error } = useSelector((state: RootState) => state.news);
+	const { news, status, error, searchTerm } = useSelector((state: RootState) => state.news);
 
 	useEffect(() => {
-		dispatch(fetchNews());
-	}, [dispatch]);
+		dispatch(fetchNews({ searchTerm }));
+	}, [dispatch, searchTerm]);
 
 	const handleClick = (news: NewsItem) => {
 		router.push(`/article?id=${ news.id }`);
@@ -34,27 +34,27 @@ export const ArticleCard = () => {
 
 	return (
 		<div>
-			{news.map((item: NewsItem) => {
+			{ news.map((item: NewsItem) => {
 				const formattedDate = formatPublicationDate(item.webPublicationDate);
 
 				return (
-					<div key={item.id}>
-						{item?.fields.thumbnail ? (
+					<div key={ item.id }>
+						{ item?.fields?.thumbnail ? (
 							<Image
-								src={item.fields.thumbnail}
-								alt={'cover'}
-								width='500'
-								height='500'
+								src={ item.fields.thumbnail }
+								alt={ 'cover' }
+								width="500"
+								height="500"
 							/>
 						) : (
 							<p>No thumbnail available</p>
-						)}
-						<p>{formattedDate}</p>
-						<p>{item.webTitle}</p>
-						<button onClick={() => handleClick(item)}>Details</button>
+						) }
+						<p>{ formattedDate }</p>
+						<p>{ item.webTitle }</p>
+						<button onClick={ () => handleClick(item) }>Details</button>
 					</div>
 				);
-			})}
+			}) }
 		</div>
 	);
 };

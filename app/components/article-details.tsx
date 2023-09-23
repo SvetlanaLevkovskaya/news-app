@@ -3,13 +3,13 @@
 import React, { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useFormattedDate } from '@/app/hooks/use-formatted-date';
 import { useSearchParams } from 'next/navigation';
 
 import DOMPurify from 'dompurify'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { fetchArticle } from '@/redux/services/fetch-article';
+import { formatPublicationDate } from '@/app/lib/format-publication-date';
 
 
 export const ArticleDetails = () => {
@@ -18,7 +18,7 @@ export const ArticleDetails = () => {
 	const dispatch: AppDispatch = useDispatch();
 
 	const { article, status, error } = useSelector((state: RootState) => state.article);
-	const formattedDate = useFormattedDate(article?.webPublicationDate);
+	const formattedDate = formatPublicationDate(article?.webPublicationDate);
 
 	useEffect(() => {
 		if (articleId) {
@@ -39,10 +39,19 @@ export const ArticleDetails = () => {
 		<div>
 			<p>{formattedDate}</p>
 			<div>
-				<Image src={article?.fields.thumbnail} alt={'cover'}  width={'350'} height={'350'}  loading="eager"/>
+				{article?.fields.thumbnail ? (
+					<Image
+						src={article.fields.thumbnail}
+						alt={'cover'}
+						width={500}
+						height={500}
+					/>
+				) : (
+					<p>No thumbnail available</p>
+				)}
 			</div>
-			<Link href={ article.webUrl }>read on Guardian</Link>
-			<p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article?.fields.body) }}></p>
+			<Link href={ article?.webUrl }>read on Guardian</Link>
+			<p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article?.fields.body || '') }}></p>
 		</div>
 	);
 };

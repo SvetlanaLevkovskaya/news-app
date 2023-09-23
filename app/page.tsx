@@ -9,12 +9,10 @@ export default async function Home() {
 	const apiKey = publicRuntimeConfig.GUARDIAN_API_KEY;
 	const apiUrl = `${ publicRuntimeConfig.GUARDIAN_API_URL }search?show-fields=body,headline,thumbnail&api-key=${ apiKey }`;
 
-	const res = await fetch(apiUrl, { cache: 'no-store' });
+	const res = await fetch(apiUrl);
 	const data: any = await res.json();
-	console.log('data', data);
 
 	const news = await data.response.results;
-	console.log('news', news);
 
 	return (
 		<main>

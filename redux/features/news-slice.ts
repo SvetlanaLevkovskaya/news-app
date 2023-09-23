@@ -22,7 +22,8 @@ const initialState = {
 	status: 'idle' as 'idle' | 'loading' | 'succeeded' | 'failed',
 	error: null as string | null,
 	searchTerm: '',
-	sortOption: 'newest'
+	sortOption: 'newest',
+	itemsPerPage: 10
 };
 
 const newsSlice = createSlice({
@@ -34,6 +35,9 @@ const newsSlice = createSlice({
 		},
 		setSortOption: (state, action: PayloadAction<string>) => {
 			state.sortOption = action.payload
+		},
+		setArticlePerPage: (state, action: PayloadAction<number>) => {
+			state.itemsPerPage = action.payload
 		},
 	},
 	extraReducers: (builder) => {
@@ -52,6 +56,6 @@ const newsSlice = createSlice({
 	},
 });
 
-export const { setSearchTerm, setSortOption } = newsSlice.actions
+export const { setSearchTerm, setSortOption, setArticlePerPage } = newsSlice.actions
 export default newsSlice.reducer;
 

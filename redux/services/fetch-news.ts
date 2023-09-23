@@ -3,11 +3,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 interface FetchNewsType {
 	searchTerm: string
 	sortOption: string
+	itemsPerPage: number
 }
 
-export const fetchNews = createAsyncThunk<any, FetchNewsType>('article/fetchNews', async ({searchTerm, sortOption}: FetchNewsType) => {
+export const fetchNews = createAsyncThunk<any, FetchNewsType>('article/fetchNews', async ({searchTerm, sortOption, itemsPerPage}: FetchNewsType) => {
 	const apiKey = "f8e7118b-6ea5-4f80-bcb6-5332a889495a";
-	const apiUrl = `https://content.guardianapis.com/search?show-fields=body,headline,thumbnail&q=${searchTerm}&order-by=${sortOption}&api-key=${apiKey}`;
+	const apiUrl = `https://content.guardianapis.com/search?show-fields=body,headline,thumbnail&q=${searchTerm}&order-by=${sortOption}&page-size=${itemsPerPage}&api-key=${apiKey}`;
 
 	try {
 		const res = await fetch(apiUrl);

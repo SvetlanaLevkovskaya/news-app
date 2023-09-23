@@ -3,13 +3,14 @@
 import React, { useState } from 'react';
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
-import { setSearchTerm, setSortOption } from '@/redux/features/news-slice';
+import { setArticlePerPage, setSearchTerm, setSortOption } from '@/redux/features/news-slice';
 
 export const ToolBar = () => {
 	const dispatch: AppDispatch = useDispatch()
 
 	const [search, setSearch] = useState('')
 	const [sort, setSort] = useState('')
+	const [itemsPerPage, setItemsPerPage] = useState(10)
 
 	const handleSearch = () => {
 		dispatch(setSearchTerm(search))
@@ -31,6 +32,12 @@ export const ToolBar = () => {
 		setSort(selectedValue)
 	}
 
+	const handleItemsPerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		const selectedValue = Number(event.target.value);
+		dispatch(setArticlePerPage(selectedValue));
+		setItemsPerPage(selectedValue);
+	};
+
 
 	return (
 		<>
@@ -49,6 +56,14 @@ export const ToolBar = () => {
 				<select value={ sort } onChange={ handleSortChange }>
 					<option value="newest">Newest</option>
 					<option value="oldest">Oldest</option>
+				</select>
+			</div>
+
+			<div>
+				<select value={itemsPerPage} onChange={handleItemsPerPageChange}>
+					<option value={10}>10 per page</option>
+					<option value={20}>20 per page</option>
+					<option value={30}>30 per page</option>
 				</select>
 			</div>
 		</>

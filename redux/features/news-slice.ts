@@ -21,7 +21,8 @@ const initialState = {
 	news: [] as NewsItem[],
 	status: 'idle' as 'idle' | 'loading' | 'succeeded' | 'failed',
 	error: null as string | null,
-	searchTerm: ''
+	searchTerm: '',
+	sortOption: 'newest'
 };
 
 const newsSlice = createSlice({
@@ -30,7 +31,10 @@ const newsSlice = createSlice({
 	reducers: {
 		setSearchTerm: (state, action: PayloadAction<string>) => {
 			state.searchTerm = action.payload;
-		}
+		},
+		setSortOption: (state, action: PayloadAction<string>) => {
+			state.sortOption = action.payload
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -48,6 +52,6 @@ const newsSlice = createSlice({
 	},
 });
 
-export const { setSearchTerm } = newsSlice.actions
+export const { setSearchTerm, setSortOption } = newsSlice.actions
 export default newsSlice.reducer;
 

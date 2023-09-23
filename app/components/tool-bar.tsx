@@ -2,18 +2,17 @@
 
 import React, { useState } from 'react';
 import { AppDispatch } from '@/redux/store';
-import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
-import { setSearchTerm } from '@/redux/features/news-slice';
+import { setSearchTerm, setSortOption } from '@/redux/features/news-slice';
 
 export const ToolBar = () => {
 	const dispatch: AppDispatch = useDispatch()
-	const router = useRouter();
+
 	const [search, setSearch] = useState('')
+	const [sort, setSort] = useState('')
 
 	const handleSearch = () => {
 		dispatch(setSearchTerm(search))
-		router.push(`/`);
 	}
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,18 +25,33 @@ export const ToolBar = () => {
 		}
 	}
 
+	const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		const selectedValue = event.target.value
+		dispatch(setSortOption(selectedValue))
+		setSort(selectedValue)
+	}
+
 
 	return (
-		<div>
-			<input
-				type="text"
-				value={ search }
-				onChange={ handleChange }
-				onKeyDown={ handleKeyDown }
-				placeholder="Search books..."
-			/>
-			<button onClick={ handleSearch }>Search</button>
-		</div>
+		<>
+			<div>
+				<input
+					type="text"
+					value={ search }
+					onChange={ handleChange }
+					onKeyDown={ handleKeyDown }
+					placeholder="Search article..."
+				/>
+				<button onClick={ handleSearch }>Search</button>
+			</div>
+
+			<div>
+				<select value={ sort } onChange={ handleSortChange }>
+					<option value="newest">Newest</option>
+					<option value="oldest">Oldest</option>
+				</select>
+			</div>
+		</>
 	);
 };
 

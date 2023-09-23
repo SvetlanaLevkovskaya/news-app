@@ -13,11 +13,11 @@ export const ArticleCard = () => {
 	const router = useRouter();
 	const dispatch: AppDispatch = useDispatch();
 
-	const { news, status, error, searchTerm } = useSelector((state: RootState) => state.news);
+	const { news, status, error, searchTerm, sortOption } = useSelector((state: RootState) => state.news);
 
 	useEffect(() => {
-		dispatch(fetchNews({ searchTerm }));
-	}, [dispatch, searchTerm]);
+		dispatch(fetchNews({ searchTerm, sortOption }));
+	}, [dispatch, searchTerm, sortOption]);
 
 	const handleClick = (news: NewsItem) => {
 		router.push(`/article?id=${ news.id }`);

@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import newsReducer from './features/news-slice'
+import articleReducer from './features/article-slice'
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
 export const store = configureStore({
 	reducer: {
-		newsReducer
+		news: newsReducer,
+		article: articleReducer,
 	}
 })
 

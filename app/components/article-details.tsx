@@ -1,30 +1,37 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useFormattedDate } from '@/app/hooks/use-formatted-date';
 import { useSearchParams } from 'next/navigation';
-import fetchArticle from '@/redux/api/fetch-article';
+
 import DOMPurify from 'dompurify'
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { fetchArticle } from '@/redux/services/fetch-article';
+
 
 export const ArticleDetails = () => {
 	const searchParams = useSearchParams();
 	const articleId = searchParams.get('id');
-	const [article, setArticle] = useState<any>(null);
+	const dispatch: AppDispatch = useDispatch();
+
+	const { article, status, error } = useSelector((state: RootState) => state.article);
+	const formattedDate = useFormattedDate(article?.webPublicationDate);
 
 	useEffect(() => {
 		if (articleId) {
-			fetchArticle(articleId)
-				.then((data: any) => setArticle(data))
-				.catch((error) => console.error('Error:', error));
+			dispatch(fetchArticle(articleId));
 		}
-	}, [articleId]);
+	}, [articleId, dispatch]);
 
-	const formattedDate = useFormattedDate(article?.webPublicationDate);
-
-	if (!article) {
+	if (status === 'loading') {
 		return <p>Loading...</p>;
+	}
+
+	if (status === 'failed') {
+		return <p>Error: {error}</p>;
 	}
 
 	return (
@@ -34,7 +41,7 @@ export const ArticleDetails = () => {
 			<div>
 				<Image src={article?.fields.thumbnail} alt={'cover'}  width={'350'} height={'350'}  loading="eager"/>
 			</div>
-			<Link href={article?.webUrl}>read on Guardian</Link>
+			<Link href={ article.webUrl }>read on Guardian</Link>
 			<p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article?.fields.body) }}></p>
 		</div>
 	);

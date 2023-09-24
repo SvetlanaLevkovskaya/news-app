@@ -55,6 +55,7 @@ export const ToolBar = () => {
 			<div>
 				<select value={ sort } onChange={ handleSortChange }>
 					<option value="newest">Newest</option>
+					<option value="relevance">Relevance</option>
 					<option value="oldest">Oldest</option>
 				</select>
 			</div>

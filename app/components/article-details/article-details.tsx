@@ -10,10 +10,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { fetchArticle } from '@/redux/services/fetch-article';
 import { formatPublicationDate } from '@/app/lib/format-publication-date';
+import styles from './article-details.module.css'
 
 
 export const ArticleDetails = () => {
-	const router = useRouter()
+	const router = useRouter();
 	const searchParams = useSearchParams();
 	const articleId = searchParams.get('id');
 	const dispatch: AppDispatch = useDispatch();
@@ -28,7 +29,7 @@ export const ArticleDetails = () => {
 	}, [articleId, dispatch]);
 
 	const handleHomeClick = () => {
-		router.push('/')
+		window.location.href = '/'
 	}
 
 	if (status === 'loading') {
@@ -40,24 +41,34 @@ export const ArticleDetails = () => {
 	}
 
 	return (
-
-		<div>
+		<div className={ styles.container }>
 			<button onClick={ handleHomeClick }> Go Home</button>
-			<p>{ formattedDate }</p>
-			<div>
-				{ article?.fields.thumbnail ? (
-					<Image
-						src={ article.fields.thumbnail }
-						alt={ 'cover' }
-						width={ 500 }
-						height={ 500 }
-					/>
-				) : (
-					<p>No thumbnail available</p>
-				) }
+			<div className={ styles.title }>
+				<p>{ article?.webTitle }</p>
 			</div>
-			<Link href={ article?.webUrl }>read on Guardian</Link>
-			<p dangerouslySetInnerHTML={ { __html: DOMPurify.sanitize(article?.fields.body || '') } }></p>
+
+			<div className={ styles.subTitle }>
+				<p>{ formattedDate }</p>
+				<Link href={ article?.webUrl }>read on Guardian</Link>
+			</div>
+
+			<div className={ styles.rightContainer }>
+				<div className={styles.imageContainer}>
+					{ article?.fields.thumbnail ? (
+						<Image
+							className={styles.image}
+							src={ article.fields.thumbnail }
+							alt={ 'cover' }
+							width={ 700 }
+							height={ 700 }
+						/>
+					) : (
+						<span>No image available</span>
+					) }
+				</div>
+
+				<p className={styles.text} dangerouslySetInnerHTML={ { __html: DOMPurify.sanitize(article?.fields.body || '') } }></p>
+			</div>
 		</div>
 	);
 };

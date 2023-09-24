@@ -13,7 +13,6 @@
 }
 
 /* Links */
-
 a, a:link, a:visited {
   text-decoration: none;
 }
@@ -41,7 +40,6 @@ img {
 }
 
 img, svg {
-  max-width: 100%;
   height: auto;
 }
 
@@ -67,6 +65,7 @@ button {
   color: #616F82;
   white-space: nowrap;
   transition: background-color 0.2s ease-in;
+  cursor: pointer;
 }
 
 button:hover {
@@ -80,4 +79,5 @@ select {
   position: relative;
   background-position: right 10px top 50%;
   background-repeat: no-repeat;
+  cursor: pointer;
 }

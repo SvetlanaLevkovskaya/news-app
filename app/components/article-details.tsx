@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import DOMPurify from 'dompurify'
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +13,7 @@ import { formatPublicationDate } from '@/app/lib/format-publication-date';
 
 
 export const ArticleDetails = () => {
+	const router = useRouter()
 	const searchParams = useSearchParams();
 	const articleId = searchParams.get('id');
 	const dispatch: AppDispatch = useDispatch();
@@ -26,32 +27,37 @@ export const ArticleDetails = () => {
 		}
 	}, [articleId, dispatch]);
 
+	const handleHomeClick = () => {
+		router.push('/')
+	}
+
 	if (status === 'loading') {
 		return <p>Loading...</p>;
 	}
 
 	if (status === 'failed') {
-		return <p>Error: {error}</p>;
+		return <p>Error: { error }</p>;
 	}
 
 	return (
 
 		<div>
-			<p>{formattedDate}</p>
+			<button onClick={ handleHomeClick }> Go Home</button>
+			<p>{ formattedDate }</p>
 			<div>
-				{article?.fields.thumbnail ? (
+				{ article?.fields.thumbnail ? (
 					<Image
-						src={article.fields.thumbnail}
-						alt={'cover'}
-						width={500}
-						height={500}
+						src={ article.fields.thumbnail }
+						alt={ 'cover' }
+						width={ 500 }
+						height={ 500 }
 					/>
 				) : (
 					<p>No thumbnail available</p>
-				)}
+				) }
 			</div>
 			<Link href={ article?.webUrl }>read on Guardian</Link>
-			<p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article?.fields.body || '') }}></p>
+			<p dangerouslySetInnerHTML={ { __html: DOMPurify.sanitize(article?.fields.body || '') } }></p>
 		</div>
 	);
 };

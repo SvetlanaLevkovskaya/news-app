@@ -66,7 +66,7 @@ const ArticleCard = () => {
 										height="500"
 									/>
 								) : (
-									<p>No thumbnail available</p>
+									<p>No image available</p>
 								) }
 							</div>
 							<div className={ styles.cardBody }>

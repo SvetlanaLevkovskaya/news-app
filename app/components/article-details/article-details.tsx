@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 import DOMPurify from 'dompurify'
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,10 +11,10 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { fetchArticle } from '@/redux/services/fetch-article';
 import { formatPublicationDate } from '@/app/lib/format-publication-date';
 import styles from './article-details.module.css'
+import { Loader } from '@/app/components/loader/loader';
 
 
 export const ArticleDetails = () => {
-	const router = useRouter();
 	const searchParams = useSearchParams();
 	const articleId = searchParams.get('id');
 	const dispatch: AppDispatch = useDispatch();
@@ -33,7 +33,7 @@ export const ArticleDetails = () => {
 	}
 
 	if (status === 'loading') {
-		return <p>Loading...</p>;
+		return <Loader />;
 	}
 
 	if (status === 'failed') {
@@ -53,10 +53,10 @@ export const ArticleDetails = () => {
 			</div>
 
 			<div className={ styles.rightContainer }>
-				<div className={styles.imageContainer}>
+				<div className={ styles.imageContainer }>
 					{ article?.fields.thumbnail ? (
 						<Image
-							className={styles.image}
+							className={ styles.image }
 							src={ article.fields.thumbnail }
 							alt={ 'cover' }
 							width={ 700 }
@@ -67,7 +67,8 @@ export const ArticleDetails = () => {
 					) }
 				</div>
 
-				<p className={styles.text} dangerouslySetInnerHTML={ { __html: DOMPurify.sanitize(article?.fields.body || '') } }></p>
+				<p className={ styles.text }
+					 dangerouslySetInnerHTML={ { __html: DOMPurify.sanitize(article?.fields.body || '') } }></p>
 			</div>
 		</div>
 	);

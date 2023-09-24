@@ -10,6 +10,7 @@ import { NewsItem, setLoadMore } from '@/redux/features/news-slice';
 import { formatPublicationDate } from '@/app/lib/format-publication-date';
 import { fetchNews } from '@/redux/services/fetch-news';
 import styles from './article-card.module.css'
+import { Loader } from '@/app/components/loader/loader';
 
 
 const ArticleCard = () => {
@@ -42,7 +43,7 @@ const ArticleCard = () => {
 	}
 
 	if (status === 'loading') {
-		return <p>Loading...</p>;
+		return <Loader />;
 	}
 
 	if (status === 'failed') {

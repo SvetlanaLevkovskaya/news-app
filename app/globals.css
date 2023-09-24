@@ -1,3 +1,5 @@
+
+
 * {
   padding: 0;
   margin: 0;
@@ -48,16 +50,11 @@ address {
 }
 
 /* Form */
-
 input, textarea, button, select {
   font-family: inherit;
   font-size: inherit;
   color: inherit;
   background-color: transparent;
-}
-
-input::-ms-clear {
-  display: none;
 }
 
 button {
@@ -76,19 +73,11 @@ button:hover {
   color: #4198C5;
 }
 
-label {
-  cursor: pointer;
-}
 
-legend {
-  display: block;
-}
-
-/*select {
-  appearance: none;
+select {
   outline: none;
   line-height: normal;
   position: relative;
   background-position: right 10px top 50%;
   background-repeat: no-repeat;
-}*/
+}

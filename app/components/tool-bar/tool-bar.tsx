@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { setArticlePerPage, setSearchTerm, setSortOption } from '@/redux/features/news-slice';
+import styles from './tool-bar.module.css'
 
 export const ToolBar = () => {
 	const dispatch: AppDispatch = useDispatch()
@@ -40,34 +41,39 @@ export const ToolBar = () => {
 
 
 	return (
-		<>
-			<div>
+		<div className={styles.container}>
+			<div className={styles.searchBar}>
 				<input
+					className={styles.searchInput}
 					type="text"
 					value={ search }
 					onChange={ handleChange }
 					onKeyDown={ handleKeyDown }
 					placeholder="Search article..."
 				/>
-				<button onClick={ handleSearch }>Search</button>
+				<button className={styles.searchButton} onClick={ handleSearch }>Search</button>
 			</div>
 
-			<div>
-				<select value={ sort } onChange={ handleSortChange }>
-					<option value="newest">Newest</option>
-					<option value="relevance">Relevance</option>
-					<option value="oldest">Oldest</option>
-				</select>
+			<div className={styles.selectBar}>
+				<div>
+					<select value={ sort } onChange={ handleSortChange }>
+						<option value="newest">Newest</option>
+						<option value="relevance">Relevance</option>
+						<option value="oldest">Oldest</option>
+					</select>
+				</div>
+
+				<div>
+					<select value={itemsPerPage} onChange={handleItemsPerPageChange}>
+						<option value={10}>10 per page</option>
+						<option value={20}>20 per page</option>
+						<option value={30}>30 per page</option>
+					</select>
+				</div>
+
 			</div>
 
-			<div>
-				<select value={itemsPerPage} onChange={handleItemsPerPageChange}>
-					<option value={10}>10 per page</option>
-					<option value={20}>20 per page</option>
-					<option value={30}>30 per page</option>
-				</select>
-			</div>
-		</>
+		</div>
 	);
 };
 

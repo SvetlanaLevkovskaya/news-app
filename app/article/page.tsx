@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArticleDetails } from '@/app/components/article-details';
+import { ArticleDetails } from '@/app/components/article-details/article-details';
 
 const ArticlePage = () => {
 

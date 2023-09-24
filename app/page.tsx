@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ToolBar } from '@/app/components/tool-bar';
+import { ToolBar } from '@/app/components/tool-bar/tool-bar';
 import ArticleCard from '@/app/components/article-card/article-card';
 import styles from './page.module.css';
 

@@ -1,11 +1,11 @@
-/** @type {import('next').NextConfig} */
+/** @type {import("next").NextConfig} */
 const nextConfig = {
   images: {
     unoptimized: true,
     domains: [
-      'media.guim.co.uk',
+      "media.guim.co.uk",
     ]
   }
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

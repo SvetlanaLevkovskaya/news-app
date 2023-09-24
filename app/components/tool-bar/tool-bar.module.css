@@ -1,0 +1,59 @@
+.container {
+    margin: auto;
+    align-self: center;
+    padding: 2rem 6rem;
+    background-color: #8498af;
+    border-radius: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.searchBar {
+    display: flex;
+    flex-direction: row;
+    gap: 4rem;
+}
+
+.searchInput {
+    width: 20rem;
+    background-color: #eee8e8;
+    border-radius: 0.125rem;
+    padding: 0 0.5rem;
+}
+
+.searchButton {
+    width: 5rem;
+    background-color:  #eee8e8;
+    border-radius: 0.125rem;
+    font-size: 1rem;
+}
+
+.selectBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
+@media (max-width: 769px) {
+    .container {
+        padding: 1rem 1rem;
+        gap: 2rem;
+    }
+
+    .searchBar {
+        flex-direction: column;
+        gap: 2rem
+    }
+
+    .searchInput {
+        width: 12rem;
+        padding: 0.7rem 0.3rem;
+    }
+
+    .selectBar {
+        flex-direction: column;
+        gap: 2rem
+    }
+}

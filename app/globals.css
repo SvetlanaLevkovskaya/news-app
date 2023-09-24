@@ -2,6 +2,7 @@
   padding: 0;
   margin: 0;
   border: none;
+  overflow: auto;
 }
 
 *,
@@ -85,11 +86,11 @@ legend {
   display: block;
 }
 
-select {
+/*select {
   appearance: none;
   outline: none;
   line-height: normal;
   position: relative;
   background-position: right 10px top 50%;
   background-repeat: no-repeat;
-}
+}*/

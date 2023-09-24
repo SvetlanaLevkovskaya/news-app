@@ -1,14 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { apiKey, apiUrl } from '@/app/constants';
 
 
 export const fetchArticle = createAsyncThunk('article/fetchArticle', async (articleId: string | undefined) => {
-	const apiKey = "f8e7118b-6ea5-4f80-bcb6-5332a889495a";
-	const apiUrl = `https://content.guardianapis.com/${articleId}?show-fields=body,thumbnail&api-key=${apiKey}`;
+
+	const apiURL = `${ apiUrl }/${ articleId }?show-fields=body,thumbnail&api-key=${ apiKey }`;
+
 	try {
-		const res = await fetch(apiUrl);
-		if (!res.ok) {
-			throw new Error('Network response was not ok');
-		}
+		const res = await fetch(apiURL);
 		const data = await res.json();
 		return data.response.content;
 	} catch (error) {

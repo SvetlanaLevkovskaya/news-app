@@ -5,56 +5,79 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
-import { fetchNews } from '@/redux/services/fetch-news';
-import { NewsItem } from '@/redux/features/news-slice';
-import { formatPublicationDate } from '@/app/lib/format-publication-date';
 
-export const ArticleCard = () => {
+import { NewsItem, setLoadMore } from '@/redux/features/news-slice';
+import { formatPublicationDate } from '@/app/lib/format-publication-date';
+import { fetchNews } from '@/redux/services/fetch-news';
+
+
+const ArticleCard = () => {
 	const router = useRouter();
 	const dispatch: AppDispatch = useDispatch();
 
-	const { news, status, error, searchTerm, sortOption, itemsPerPage } = useSelector((state: RootState) => state.news);
+	const {
+		news,
+		status,
+		error,
+		searchTerm,
+		sortOption,
+		itemsPerPage,
+		nextPage,
+	} = useSelector((state: RootState) => state.news);
+
 
 	useEffect(() => {
-		dispatch(fetchNews({ searchTerm, sortOption, itemsPerPage }));
-	}, [dispatch, searchTerm, sortOption, itemsPerPage]);
+		dispatch(fetchNews({ searchTerm, sortOption, itemsPerPage, nextPage }));
+	}, [dispatch, searchTerm, sortOption, itemsPerPage, nextPage]);
 
 	const handleClick = (news: NewsItem) => {
 		router.push(`/article?id=${ news.id }`);
 	};
 
-
-	if (status === 'loading') {
-		return <p>Loading...</p>;
+	const handleLoadMore = () => {
+		const newPage = nextPage + 1
+		const newPageSize = itemsPerPage + itemsPerPage
+		dispatch(setLoadMore({nextPage: newPage, itemsPerPage: newPageSize}));
 	}
 
-	if (status === 'failed') {
-		return <p>Error: { error }</p>;
-	}
+		if (status === 'loading') {
+			return <p>Loading...</p>;
+		}
 
-	return (
-		<div>
-			{ news.map((item: NewsItem) => {
-				const formattedDate = formatPublicationDate(item.webPublicationDate);
+		if (status === 'failed') {
+			return <p>Error: { error }</p>;
+		}
 
-				return (
-					<div key={ item.id }>
-						{ item?.fields?.thumbnail ? (
-							<Image
-								src={ item.fields.thumbnail }
-								alt={ 'cover' }
-								width="500"
-								height="500"
-							/>
-						) : (
-							<p>No thumbnail available</p>
-						) }
-						<p>{ formattedDate }</p>
-						<p>{ item.webTitle }</p>
-						<button onClick={ () => handleClick(item) }>Details</button>
-					</div>
-				);
-			}) }
-		</div>
-	);
-};
+		console.log('news.length', news?.length)
+
+		return (
+			<>
+				<div>
+					{ news?.map((item: NewsItem, index) => {
+						const formattedDate = formatPublicationDate(item.webPublicationDate);
+
+						return (
+							<div key={ index }>
+								{ item?.fields?.thumbnail ? (
+									<Image
+										src={ item.fields.thumbnail }
+										alt={ 'cover' }
+										width="500"
+										height="500"
+									/>
+								) : (
+									<p>No thumbnail available</p>
+								) }
+								<p>{ formattedDate }</p>
+								<p>{ item.webTitle }</p>
+								<button onClick={ () => handleClick(item) }>Details</button>
+							</div>
+						);
+					}) }
+				</div>
+				<button onClick={ handleLoadMore }>Load More</button>
+			</>
+		);
+	};
+
+	export default ArticleCard;

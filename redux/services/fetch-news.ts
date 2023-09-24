@@ -30,14 +30,6 @@ export const fetchNews = createAsyncThunk<NewsItem[], FetchNewsType>('article/fe
 	try {
 		const res = await fetch(apiUrlWithParams);
 		const data = await res.json();
-
-		const total = data?.response?.total || 0
-		const prevNews = (getState() as RootState).news.news;
-		console.log('prevNews', prevNews)
-		const newNews = data.response.results;
-		console.log('newNews', newNews)
-		const combinedNews = [...prevNews, ...newNews];
-
 		return data.response.results
 	} catch (error) {
 		console.error('Error fetching news', error);

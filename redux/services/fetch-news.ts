@@ -1,26 +1,26 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { apiKey, apiUrl } from '@/app/constants';
 import { NewsItem } from '@/redux/features/news-slice';
-import { RootState } from '@/redux/store';
+
 
 interface FetchNewsType {
 	searchTerm: string
 	sortOption: string
 	itemsPerPage: number
-	nextPage: number
+	page: number
 }
 
-export const fetchNews = createAsyncThunk<NewsItem[], FetchNewsType>('article/fetchNews', async ({
-																																																	 searchTerm,
-																																																	 sortOption,
-																																																	 itemsPerPage,
-																																																	 nextPage,
-																																																 }: FetchNewsType, { getState }) => {
+export const fetchNews = createAsyncThunk<NewsItem[], FetchNewsType>('news/fetchNews', async ({
+																																																searchTerm,
+																																																sortOption,
+																																																itemsPerPage,
+																																																page,
+																																															}: FetchNewsType) => {
 	const params = new URLSearchParams({
 		'show-fields': 'body,headline,thumbnail',
 		'q': searchTerm,
 		'order-by': sortOption,
-		'page': nextPage.toString(),
+		'page': page.toString(),
 		'page-size': itemsPerPage.toString(),
 		'api-key': apiKey,
 	});

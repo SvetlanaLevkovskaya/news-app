@@ -3,14 +3,15 @@
 import React, { useEffect } from 'react';
 import Image from 'next/image'
 import { useRouter } from 'next/navigation';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { AppDispatch, useAppSelector } from '@/redux/store';
 
 import { NewsItem, setLoadMore } from '@/redux/features/news-slice';
 import { formatPublicationDate } from '@/app/lib/format-publication-date';
 import { fetchNews } from '@/redux/services/fetch-news';
 import styles from './article-card.module.css'
 import { Loader } from '@/app/components/loader/loader';
+import { maxResult } from '@/app/constants';
 
 
 const ArticleCard = () => {
@@ -24,23 +25,21 @@ const ArticleCard = () => {
 		searchTerm,
 		sortOption,
 		itemsPerPage,
-		nextPage,
-	} = useSelector((state: RootState) => state.news);
-
-
-	useEffect(() => {
-		dispatch(fetchNews({ searchTerm, sortOption, itemsPerPage, nextPage }));
-	}, [dispatch, searchTerm, sortOption, itemsPerPage, nextPage]);
+		page,
+	} = useAppSelector(state => state.news);
 
 	const handleClick = (news: NewsItem) => {
 		router.push(`/article?id=${ news.id }`);
 	};
 
 	const handleLoadMore = () => {
-		const newPage = nextPage + 1;
-		const newPageSize = itemsPerPage + itemsPerPage
-		dispatch(setLoadMore({ nextPage: newPage, itemsPerPage: newPageSize }));
+		const newPageSize = itemsPerPage + maxResult;
+		dispatch(setLoadMore({ page: page, itemsPerPage: newPageSize }));
 	}
+
+	useEffect(() => {
+		dispatch(fetchNews({ searchTerm, sortOption, itemsPerPage, page }));
+	}, [dispatch, searchTerm, sortOption, itemsPerPage, page]);
 
 	if (status === 'loading') {
 		return <Loader />;
@@ -74,10 +73,10 @@ const ArticleCard = () => {
 								<p className={ styles.formattedDate }>{ formattedDate }</p>
 								<p className={ styles.webTitle }>{ item.webTitle }</p>
 							</div>
-							<div className={styles.buttonContainer}>
+							<div className={ styles.buttonContainer }>
 								<button
-									className={styles.detailsButton}
-									onClick={() => handleClick(item)}
+									className={ styles.detailsButton }
+									onClick={ () => handleClick(item) }
 								>
 									Details
 								</button>
@@ -87,7 +86,9 @@ const ArticleCard = () => {
 				}) }
 
 			</div>
-			<button className={ styles.loadMoreButton } onClick={ handleLoadMore }>Load More</button>
+			{ news?.length !== 0 &&
+        <button className={ styles.loadMoreButton } onClick={ handleLoadMore }>Load More</button> }
+
 		</>
 
 	);

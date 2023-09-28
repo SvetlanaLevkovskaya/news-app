@@ -24,7 +24,7 @@ const initialState = {
 	searchTerm: '' as string,
 	sortOption: 'newest' as string,
 	itemsPerPage: 10 as number,
-	nextPage: 1 as number,
+	page: 1 as number,
 
 };
 
@@ -41,8 +41,8 @@ const newsSlice = createSlice({
 		setArticlePerPage: (state, action: PayloadAction<number>) => {
 			state.itemsPerPage = action.payload
 		},
-		setLoadMore: (state, action: PayloadAction<{nextPage: number, itemsPerPage: number}>) => {
-			state.nextPage = action.payload.nextPage
+		setLoadMore: (state, action: PayloadAction<{page: number, itemsPerPage: number}>) => {
+			state.page = action.payload.page
 			state.itemsPerPage = action.payload.itemsPerPage
 		}
 	},

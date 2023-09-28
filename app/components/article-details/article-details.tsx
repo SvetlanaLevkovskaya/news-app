@@ -6,8 +6,8 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
 import DOMPurify from 'dompurify'
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { AppDispatch, useAppSelector } from '@/redux/store';
 import { fetchArticle } from '@/redux/services/fetch-article';
 import { formatPublicationDate } from '@/app/lib/format-publication-date';
 import styles from './article-details.module.css'
@@ -19,7 +19,7 @@ export const ArticleDetails = () => {
 	const articleId = searchParams.get('id');
 	const dispatch: AppDispatch = useDispatch();
 
-	const { article, status, error } = useSelector((state: RootState) => state.article);
+	const { article, status, error } = useAppSelector(state => state.article);
 	const formattedDate = formatPublicationDate(article?.webPublicationDate);
 
 	useEffect(() => {

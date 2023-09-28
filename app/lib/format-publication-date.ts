@@ -1,7 +1,9 @@
 export function formatPublicationDate(webPublicationDate: string) {
+
 	const date = new Date(webPublicationDate);
 
 	const day = date.getDate();
+
 	const months = [
 		'January', 'February', 'March', 'April',
 		'May', 'June', 'July', 'August',
@@ -19,7 +21,5 @@ export function formatPublicationDate(webPublicationDate: string) {
 	}
 
 	const formattedTime = `${hours.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-	const formatted = `${day} ${monthName} ${year} ${formattedTime} ${period}`;
-
-	return formatted;
+	return `${ day } ${ monthName } ${ year } ${ formattedTime } ${ period }`;
 }
